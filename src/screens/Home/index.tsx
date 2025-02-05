@@ -7,9 +7,9 @@ import {RootStacksProp} from '../Screens';
 import BaijiaJiangtan from './components/BaijiaJiangtan';
 import Demo from './components/Demo';
 import Passwords from './components/Passwords';
-import Tabs from './components/Tabs';
 import Wallets from './components/Wallets';
 import Works from './components/Works';
+import {Tabs} from '@src/components';
 
 interface MyProps {
   navigation?: RootStacksProp;

@@ -6,6 +6,7 @@ import Flex from './Flex';
 import MoreButton from './MoreButton';
 import Radio from './Radio';
 import Star from './Star';
+import Tabs from './Tabs';
 import ToolBar from './ToolBar';
 import ZDView from './ZdView';
 
@@ -19,5 +20,6 @@ export {
   Star,
   DatePicker,
   Radio,
-  DeleteableTags
+  DeleteableTags,
+  Tabs,
 };
