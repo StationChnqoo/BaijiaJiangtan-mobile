@@ -11,30 +11,30 @@ import * as React from 'react';
 // 这个地方用Path alias，@/App会报错
 import App from '../../App';
 import BottomTabs from './BottomTabs';
-import ChooseStock from './ChooseStock';
-import Webviewer from './Webviewer';
-import Login from './Login';
-import ChooseGlobal from './ChooseGlobal';
-import EditJira from './EditJira';
-import EditPassword from './EditPassword';
-import EditWallet from './EditWallet';
-import EditAlbum from './EditAlbum';
 import EditChapter from './EditChapter';
+import EditJira from './EditJira';
+import EditSeries from './EditSeries';
+import EditWallet from './EditWallet';
+import Login from './Login';
+import SelectSeries from './SelectSeries';
+import Webviewer from './Webviewer';
+import SelectTeacher from './SelectTeacher';
+import EditTeacher from './EditTeacher';
 
 export type RootStacksParams = {
   App: undefined;
   HelloWorld: {id: string};
   Welcome: undefined;
   BottomTabs: undefined;
-  ChooseStock: {id?: string};
   Webviewer: {title: string; url: string};
   Login: undefined;
-  ChooseGlobal: undefined;
   EditJira: {id?: string};
-  EditPassword: {id?: string};
+  SelectSeries: undefined;
   EditWallet: {id?: string};
-  EditAlbum: {id?: string};
-  EditChapter: {id?: string}
+  EditSeries: {id?: string};
+  EditChapter: {id?: string};
+  EditTeacher: {id?: string};
+  SelectTeacher: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -54,15 +54,15 @@ export default function Stacks() {
         }}>
         <RootStack.Screen name="BottomTabs" component={BottomTabs} />
         <RootStack.Screen name="App" component={App} />
-        <RootStack.Screen name="ChooseStock" component={ChooseStock} />
         <RootStack.Screen name="Webviewer" component={Webviewer} />
         <RootStack.Screen name="Login" component={Login} />
-        <RootStack.Screen name="ChooseGlobal" component={ChooseGlobal} />
         <RootStack.Screen name="EditJira" component={EditJira} />
-        <RootStack.Screen name="EditPassword" component={EditPassword} />
+        <RootStack.Screen name="SelectSeries" component={SelectSeries} />
         <RootStack.Screen name="EditWallet" component={EditWallet} />
-        <RootStack.Screen name="EditAlbum" component={EditAlbum} />
+        <RootStack.Screen name="EditSeries" component={EditSeries} />
         <RootStack.Screen name="EditChapter" component={EditChapter} />
+        <RootStack.Screen name="EditTeacher" component={EditTeacher} />
+        <RootStack.Screen name="SelectTeacher" component={SelectTeacher} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

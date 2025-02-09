@@ -69,7 +69,6 @@ const EditJira: React.FC<MyProps> = props => {
       // @ts-ignore
       draft.people = JSON.stringify(draft.people);
     });
-    let result = await new NextService().mergeJira(jira);
     toast.show({description: '操作成功'});
     navigation.goBack();
   };

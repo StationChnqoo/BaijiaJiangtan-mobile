@@ -5,11 +5,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
-import {Button, Flex} from '@src/components';
+import {Button, Flex, MoreButton} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import {Chapter, ChapterSchema} from '@src/constants/t';
@@ -30,9 +31,10 @@ interface MyProps {
 
 const EditChapter: React.FC<MyProps> = props => {
   const {navigation, route} = props;
-  const {theme, setUser} = useCaches();
+  const {theme, setUser, selectedSeries} = useCaches();
   const [form, setForm] = useState<Chapter>(ChapterSchema.parse({}));
   const toast = useToast();
+  const [series, setSeries] = useState();
 
   const updateForm = <K extends keyof Chapter>(key: K, value: Chapter[K]) => {
     let _form = produce(form, draft => {
@@ -42,7 +44,7 @@ const EditChapter: React.FC<MyProps> = props => {
   };
 
   const onSave = async () => {
-    await new NextService().mergePassword(form);
+    await new NextService().mergeChapter(form);
     toast.show({description: '操作成功'});
     navigation.goBack();
   };
@@ -67,6 +69,11 @@ const EditChapter: React.FC<MyProps> = props => {
     loadDetail();
     return function () {};
   }, []);
+
+  useEffect(() => {
+    updateForm('seriesId', selectedSeries.id);
+    return function () {};
+  }, [selectedSeries]);
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -141,12 +148,22 @@ const EditChapter: React.FC<MyProps> = props => {
             </Text>
           </Flex>
           {loadLine()}
-          <Flex horizontal justify="space-between">
-            <Text style={styles.label}>SeriesId</Text>
-            <Text style={{color: '#666', fontSize: 14}}>
-              {form.seriesId || '--'}
-            </Text>
-          </Flex>
+          <View>
+            <Flex horizontal justify="space-between">
+              <Text style={styles.label}>系列</Text>
+              <MoreButton
+                label={form.seriesId || '请选择'}
+                onPress={() => {
+                  navigation.navigate('SelectSeries');
+                }}
+              />
+            </Flex>
+            {form.seriesId ? (
+              <Text style={{color: '#999', marginTop: 5, fontSize: 12}}>
+                {JSON.stringify(selectedSeries)}
+              </Text>
+            ) : null}
+          </View>
           {loadLine()}
           <Flex horizontal justify="space-between">
             <Text style={styles.label}>标题</Text>
@@ -212,6 +229,33 @@ const EditChapter: React.FC<MyProps> = props => {
               onChangeText={t => updateForm('link', t)}
             />
           </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>状态</Text>
+            <View style={{width: 12}} />
+            <Flex style={{gap: 10}} horizontal>
+              {['未处理', '已放弃', '往后放', '已完成'].map((it, i) => (
+                <TouchableOpacity
+                  key={i}
+                  activeOpacity={0.8}
+                  style={{
+                    ...styles.tag,
+                    borderColor: form.status == i ? theme : '#999',
+                  }}
+                  onPress={() => {
+                    updateForm('status', i);
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: form.status == i ? theme : '#999',
+                    }}>
+                    {it}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </Flex>
+          </Flex>
         </View>
       </ScrollView>
       <Divider />
@@ -242,6 +286,7 @@ const styles = StyleSheet.create({
     color: '#333',
     lineHeight: 24,
     textAlignVertical: 'center',
+    fontWeight: '500',
   },
   value: {
     fontSize: 14,
@@ -276,6 +321,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 0,
     height: 24,
+    color: '#333',
+  },
+  tag: {
+    borderRadius: 5,
+    borderWidth: 1,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
   },
 });
 

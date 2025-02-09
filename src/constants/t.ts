@@ -153,5 +153,31 @@ export const ChapterSchema = z.object({
   createTime: z.number().default(0),
 });
 
+export const SeriesSchema = z.object({
+  id: z.string().default(""),
+  teacherId: z.string().default(""),
+  title: z.string().default(""),
+  message: z.string().default(""),
+  cover: z.string().default(""),
+  brief: z.string().default(""),
+  debut: z.number().int().default(0),
+  status: z.number().int().default(0),
+  createTime: z.number().int().default(0),
+  updateTime: z.number().int().default(0),
+});
+
+export const TeacherSchema = z.object({
+  id: z.string().default(""),
+  name: z.string().default(""),
+  avatar: z.string().default(""),
+  title: z.string().default(""),
+  message: z.string().default(""),
+  createTime: z.number().int().default(0),
+  updateTime: z.number().int().default(0),
+  status: z.number().int().default(0),
+});
+
+export type Teacher = z.infer<typeof TeacherSchema>;
+export type Series = z.infer<typeof SeriesSchema>;
 export type Chapter = z.infer<typeof ChapterSchema>;
 export type Password = z.infer<typeof PasswordSchema>;

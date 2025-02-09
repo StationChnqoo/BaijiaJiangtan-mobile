@@ -58,8 +58,6 @@ const Demo: React.FC<MyProps> = memo(props => {
                 // @ts-ignore
                 draft['people'] = JSON.stringify(draft['people']);
               });
-              // @ts-ignore
-              await new NextService().mergeJira(item);
             }
             toast.show({description: `还原完成`});
           }}>

@@ -1,7 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {create} from 'zustand';
 import {createJSONStorage, devtools, persist} from 'zustand/middleware';
-import {User, UserSchema} from './t';
+import {
+  Series,
+  SeriesSchema,
+  Teacher,
+  TeacherSchema,
+  User,
+  UserSchema,
+} from './t';
 
 interface States {
   user: User;
@@ -19,6 +26,11 @@ interface States {
   clear: () => void;
   token: string;
   setToken: (t: string) => void;
+  /** 表单 */
+  selectedSeries: Series;
+  setSelectedSeries: (s: Series) => void;
+  selectedTeacher: Teacher;
+  setSelectedTeacher: (t: Teacher) => void;
   quit: () => void;
 }
 
@@ -30,6 +42,8 @@ const initialState = {
   global: ['1.000001', '0.399006', '100.NDX', '100.N225'],
   user: UserSchema.parse({}),
   token: '',
+  selectedSeries: SeriesSchema.parse({}),
+  selectedTeacher: TeacherSchema.parse({}),
 };
 
 const useCaches = create<States>()(
@@ -44,6 +58,8 @@ const useCaches = create<States>()(
         setUser: user => set({user}),
         setGlobal: global => set({global}),
         setToken: token => set({token}),
+        setSelectedSeries: selectedSeries => set({selectedSeries}),
+        setSelectedTeacher: selectedTeacher => set({selectedTeacher}),
         quit: () => {
           set({token: '', user: UserSchema.parse({})});
         },

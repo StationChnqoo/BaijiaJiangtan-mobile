@@ -1,6 +1,14 @@
 import {MD5, SHA256} from 'crypto-js';
 import BaseService from './BaseService';
-import {Jira, PaginationProps, Password, Property} from '@src/constants/t';
+import {
+  Chapter,
+  Jira,
+  PaginationProps,
+  Password,
+  Property,
+  Series,
+  Teacher,
+} from '@src/constants/t';
 
 export default class NextService extends BaseService {
   constructor() {
@@ -24,7 +32,7 @@ export default class NextService extends BaseService {
   }
 
   async selectChapter(id: string) {
-    let result = await this.instance.get(`/init/detail.do`, {
+    let result = await this.instance.get(`/init/selectChapter.do`, {
       params: {id},
     });
     return result.data;
@@ -39,64 +47,34 @@ export default class NextService extends BaseService {
   }
 
   async selectUUID() {
-    let result = await this.instance.get(`/share/uuid.do`, {
+    let result = await this.instance.get(`/demo/uuid.do`, {
       params: {},
     });
     return result.data;
   }
 
-  async mergeJira(jira: Jira) {
-    let result = await this.instance.post(`/mergeJira.do`, jira);
+  async mergeTeacher(t: Teacher) {
+    let result = await this.instance.post(`/init/mergeTeacher.do`, t);
     return result.data;
   }
 
-  async deleteJira(id: String) {
-    let result = await this.instance.get(`/deleteJira.do`, {params: {id}});
+  async mergeSeries(s: Series) {
+    let result = await this.instance.post(`/init/mergeSeries.do`, s);
     return result.data;
   }
 
-  async deleteProperty(id: String) {
-    let result = await this.instance.get(`/deleteProperty.do`, {params: {id}});
+  async mergeChapter(c: Chapter) {
+    let result = await this.instance.post(`/init/mergeChapter.do`, c);
     return result.data;
   }
 
-  async deletePassword(id: String) {
-    let result = await this.instance.get(`/deletePassword.do`, {params: {id}});
+  async selectTeachers() {
+    let result = await this.instance.get(`/init/selectTeachers.do`);
     return result.data;
   }
 
-  async mergeProperty(property: Property) {
-    let result = await this.instance.post(`/mergeProperty.do`, property);
-    return result.data;
-  }
-
-  async mergePassword(password: Password) {
-    let result = await this.instance.post(`/mergePassword.do`, password);
-    return result.data;
-  }
-
-  async selectJiras(page: PaginationProps) {
-    let result = await this.instance.get(`/selectJiras.do`, {params: page});
-    return result.data;
-  }
-
-  async selectPasswords(page: PaginationProps) {
-    let result = await this.instance.get(`/selectPasswords.do`, {params: page});
-    return result.data;
-  }
-
-  async selectJira(id: string) {
-    let result = await this.instance.get(`/selectJira.do`, {params: {id}});
-    return result.data;
-  }
-
-  async selectPassword(id: string) {
-    let result = await this.instance.get(`/selectPassword.do`, {params: {id}});
-    return result.data;
-  }
-
-  async selectProperty(id: string) {
-    let result = await this.instance.get(`/selectProperty.do`, {params: {id}});
+  async selectSerieses() {
+    let result = await this.instance.get(`/init/selectSerieses.do`);
     return result.data;
   }
 
