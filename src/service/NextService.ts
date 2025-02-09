@@ -8,7 +8,7 @@ export default class NextService extends BaseService {
   }
 
   async chapterStatusCount() {
-    let result = await this.instance.get(`/chapter/statusCount.do`, {});
+    let result = await this.instance.get(`/init/statusCount.do`, {});
     return result.data;
   }
 
@@ -17,8 +17,15 @@ export default class NextService extends BaseService {
     currentPage: number;
     pageSize: number;
   }) {
-    let result = await this.instance.get(`/chapter/findByStatus.do`, {
+    let result = await this.instance.get(`/init/findByStatus.do`, {
       params,
+    });
+    return result.data;
+  }
+
+  async selectChapter(id: string) {
+    let result = await this.instance.get(`/init/detail.do`, {
+      params: {id},
     });
     return result.data;
   }

@@ -2,14 +2,13 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {useFocusEffect} from '@react-navigation/native';
+import {Tabs} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {RootStacksProp} from '../Screens';
-import BaijiaJiangtan from './components/BaijiaJiangtan';
 import Demo from './components/Demo';
 import Passwords from './components/Passwords';
 import Wallets from './components/Wallets';
 import Works from './components/Works';
-import {Tabs} from '@src/components';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -70,17 +69,6 @@ const Home: React.FC<MyProps> = props => {
           />
         ),
       },
-      {
-        label: '百家讲坛',
-        value: 'bjjt',
-        component: (
-          <BaijiaJiangtan
-            onNewPress={() => {
-              navigation.navigate('EditAlbum');
-            }}
-          />
-        ),
-      },
       {label: '测试', value: 'demo', component: __DEV__ ? <Demo /> : <View />},
     ],
     [],
@@ -88,20 +76,7 @@ const Home: React.FC<MyProps> = props => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f0f0f0', position: 'relative'}}>
-      <Tabs
-        onTabPress={setTab}
-        tabIndex={tab}
-        tabs={tabs}
-        avoidStatusBar
-        shadow
-      />
-      <View style={{flex: 1}}>
-        {tabs.map((it, i) => (
-          <View key={i} style={{display: i == tab ? 'flex' : 'none', flex: 1}}>
-            {tabs[i].component}
-          </View>
-        ))}
-      </View>
+      
     </View>
   );
 };

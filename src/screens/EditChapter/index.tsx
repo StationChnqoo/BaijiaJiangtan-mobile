@@ -1,0 +1,282 @@
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+
+import {RouteProp} from '@react-navigation/native';
+import {Button, Flex} from '@src/components';
+import ToolBar from '@src/components/ToolBar';
+import {useCaches} from '@src/constants/store';
+import {Chapter, ChapterSchema} from '@src/constants/t';
+import x from '@src/constants/x';
+import {NextService} from '@src/service';
+import {produce} from 'immer';
+import moment from 'moment';
+import {Divider, useToast} from 'native-base';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Video from 'react-native-video';
+import {RootStacksParams, RootStacksProp} from '../Screens';
+import FastImage from 'react-native-fast-image';
+
+interface MyProps {
+  navigation?: RootStacksProp;
+  route?: RouteProp<RootStacksParams, 'EditJira'>;
+}
+
+const EditChapter: React.FC<MyProps> = props => {
+  const {navigation, route} = props;
+  const {theme, setUser} = useCaches();
+  const [form, setForm] = useState<Chapter>(ChapterSchema.parse({}));
+  const toast = useToast();
+
+  const updateForm = <K extends keyof Chapter>(key: K, value: Chapter[K]) => {
+    let _form = produce(form, draft => {
+      draft[key] = value;
+    });
+    setForm(_form);
+  };
+
+  const onSave = async () => {
+    await new NextService().mergePassword(form);
+    toast.show({description: '操作成功'});
+    navigation.goBack();
+  };
+
+  const loadLine = (n?: string) => <View style={{...styles.line}} />;
+
+  const loadDetail = async () => {
+    let _form = JSON.parse(JSON.stringify(form)) as Chapter;
+    if (route.params?.id) {
+      let result = await new NextService().selectChapter(route.params.id);
+      _form = result.data;
+    } else {
+      _form.createTime = new Date().getTime();
+      let result = await new NextService().selectUUID();
+      _form.id = result.data;
+    }
+    _form.updateTime = new Date().getTime();
+    setForm(_form);
+  };
+
+  useEffect(() => {
+    loadDetail();
+    return function () {};
+  }, []);
+
+  return (
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <ToolBar
+        title={'编辑章节'}
+        onBackPress={() => {
+          navigation.goBack();
+        }}
+      />
+      <View style={{height: 1, backgroundColor: '#eee'}} />
+      <ScrollView bounces={false} style={{flex: 1}}>
+        <Flex
+          style={{
+            width: x.WIDTH,
+            height: (x.WIDTH * 9) / 16,
+            backgroundColor: '#000',
+          }}>
+          {form.m3u8 ? (
+            <Video
+              fullscreen={false}
+              controls={true}
+              resizeMode={'contain'}
+              source={{
+                uri: form.m3u8,
+              }}
+              onError={() => {
+                toast.show({description: '播放失败'});
+              }}
+              style={{width: '100%', height: '100%'}}
+            />
+          ) : (
+            <ActivityIndicator size={32} />
+          )}
+        </Flex>
+        <View style={{padding: 15}}>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>ID</Text>
+            <Text style={{color: '#666', fontSize: 14}}>{form.id}</Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>CCTV-GUID</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {form.cctvGuid || '--'}
+            </Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>CCTV-ID</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {form.cctvId || '--'}
+            </Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>时长</Text>
+            <Text style={{color: '#666', fontSize: 14}}>{form.duration}</Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>上映时间</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {moment(form.focusTime).format('YYYY-MM-DD HH:mm:ss')}
+            </Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>修改时间</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {moment(form.updateTime).fromNow().replace(' ', '')}
+            </Text>
+          </Flex>
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>添加时间</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {moment(form.createTime).format('YYYY-MM-DD HH:mm:ss')}
+            </Text>
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>SeriesId</Text>
+            <Text style={{color: '#666', fontSize: 14}}>
+              {form.seriesId || '--'}
+            </Text>
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>标题</Text>
+            <View style={{width: 12}} />
+            <TextInput
+              placeholder="标题"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.title}
+              onChangeText={t => updateForm('title', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between" align="flex-end">
+            <Text style={styles.label}>备注</Text>
+            <View style={{width: 24}} />
+            <TextInput
+              placeholder="备注"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.message}
+              onChangeText={t => updateForm('message', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between">
+            <FastImage source={{uri: form.cover}} style={styles.cover} />
+            <View style={{width: 5}} />
+            <TextInput
+              placeholder="封面"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.cover}
+              onChangeText={t => updateForm('cover', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between">
+            <Text style={styles.label}>剧情</Text>
+            <View style={{width: 12}} />
+            <TextInput
+              placeholder="剧情"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.brief}
+              onChangeText={t => updateForm('brief', t)}
+            />
+          </Flex>
+          {loadLine()}
+          <Flex horizontal justify="space-between" align="flex-end">
+            <Text style={styles.label}>链接</Text>
+            <View style={{width: 12}} />
+            <TextInput
+              placeholder="链接"
+              style={{...styles.input, height: undefined}}
+              textAlign={'right'}
+              multiline
+              value={form.link}
+              onChangeText={t => updateForm('link', t)}
+            />
+          </Flex>
+        </View>
+      </ScrollView>
+      <Divider />
+      <Flex
+        horizontal
+        justify={'flex-end'}
+        style={{paddingHorizontal: 15, paddingVertical: 10}}>
+        <Button
+          title={'保存'}
+          style={{
+            backgroundColor: theme,
+            ...styles.saveButton,
+          }}
+          textStyle={{color: '#fff'}}
+          onPress={onSave}
+        />
+      </Flex>
+      <View
+        style={{height: useSafeAreaInsets().bottom, backgroundColor: 'white'}}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  label: {
+    fontSize: 16,
+    color: '#333',
+    lineHeight: 24,
+    textAlignVertical: 'center',
+  },
+  value: {
+    fontSize: 14,
+    color: '#666',
+  },
+  playButton: {
+    height: 36,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+  },
+  saveButton: {
+    height: 36,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+  },
+  line: {
+    height: 1,
+    backgroundColor: '#eee',
+    marginVertical: 12,
+  },
+  cover: {
+    width: 96,
+    height: 54,
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#999',
+  },
+  input: {
+    fontSize: 16,
+    lineHeight: 20,
+    flex: 1,
+    padding: 0,
+    height: 24,
+  },
+});
+
+export default EditChapter;

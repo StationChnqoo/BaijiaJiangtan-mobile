@@ -33,12 +33,13 @@ const Datas: React.FC<MyProps> = props => {
   const [tabIndex, setTabIndex] = useState(0);
   const queryClient = useQueryClient();
 
-  const [tabs, setTabs] = useState([
-    {label: '已放弃', value: '--', id: '-1'},
-    {label: '未处理', value: '--', id: '0'},
-    {label: '待考虑', value: '--', id: '1'},
-    {label: '已完成', value: '--', id: '2'},
-  ]);
+  const [tabs, setTabs] = useState(
+    ['未处理', '已放弃', '往后放', '已完成'].map((it, i) => ({
+      value: '--',
+      label: it,
+      id: `${i}`,
+    })),
+  );
 
   const loadStatusCount = async () => {
     let result = await new NextService().chapterStatusCount();
@@ -46,8 +47,7 @@ const Datas: React.FC<MyProps> = props => {
       produce(tabs, draft => {
         Object.keys(result.data).map(key => {
           // console.log(key, result.data[key])
-          let index = draft.findIndex(it => it.id == key);
-          draft[index].value = result.data[key];
+          draft[parseInt(key)].value = result.data[key];
         });
       }),
     );
@@ -88,6 +88,8 @@ const Datas: React.FC<MyProps> = props => {
 
   useEffect(() => {
     loadStatusCount();
+    queryClient.resetQueries({queryKey: ['chaptersQuery']});
+    chaptersQuery.refetch();
     return function () {};
   }, [focused]);
 
@@ -97,7 +99,9 @@ const Datas: React.FC<MyProps> = props => {
       <TouchableOpacity
         style={styles.item}
         activeOpacity={0.8}
-        onPress={() => {}}>
+        onPress={() => {
+          navigation.navigate('EditChapter', {id: item.id});
+        }}>
         <Text style={styles.title}>{item.title}</Text>
         <View style={{height: 10}} />
         <Flex justify="space-between" horizontal>
@@ -125,12 +129,12 @@ const Datas: React.FC<MyProps> = props => {
         </Flex>
         <View style={{height: 2}} />
         <Flex horizontal justify="space-between">
-          <Text style={{color: '#666', fontSize: 14}} numberOfLines={1}>
+          <Text style={{color: '#999', fontSize: 14}} numberOfLines={1}>
             {`Id: ${item.id || '--'}`}
           </Text>
           <View style={{width: 24}} />
           <Text
-            style={{color: '#666', fontSize: 14, flex: 1}}
+            style={{color: '#999', fontSize: 14, flex: 1}}
             numberOfLines={1}>
             {`Series: ${item.seriesId || '--'}`}
           </Text>

@@ -136,21 +136,21 @@ export const PasswordSchema = z.object({
 });
 
 export const ChapterSchema = z.object({
-  id: z.string(),
-  seriesId: z.string(),
-  cctvGuid: z.string().optional(),
-  cctvId: z.string().optional(),
-  title: z.string(),
-  message: z.string(),
-  cover: z.string().optional(),
-  brief: z.string().optional(),
-  duration: z.string().optional(),
-  m3u8: z.string().optional(),
-  link: z.string().optional(),
-  status: z.enum(["-1", "0", "1", "2"]).transform(Number),
-  focusTime: z.string().optional(),
-  createTime: z.string(),
-  updateTime: z.string(),
+  id: z.string().default(''),
+  seriesId: z.string().default(''),
+  cctvGuid: z.string().default(''),
+  cctvId: z.string().default(''),
+  title: z.string().default(''),
+  message: z.string().default(''),
+  cover: z.string().default(''),
+  brief: z.string().default(''),
+  duration: z.string().default(''),
+  m3u8: z.string().default(''),
+  link: z.string().default(''),
+  status: z.enum(["-1", "0", "1", "2"]).transform(Number).default('0'),
+  focusTime: z.number().default(0),
+  updateTime: z.number().default(0),
+  createTime: z.number().default(0),
 });
 
 export type Chapter = z.infer<typeof ChapterSchema>;
