@@ -11,7 +11,18 @@ export default class NextService extends BaseService {
     let result = await this.instance.get(`/chapter/statusCount.do`, {});
     return result.data;
   }
-  
+
+  async selectChaptersByStatus(params: {
+    status: string;
+    currentPage: number;
+    pageSize: number;
+  }) {
+    let result = await this.instance.get(`/chapter/findByStatus.do`, {
+      params,
+    });
+    return result.data;
+  }
+
   async selectLogin(mobile: string, password: string) {
     let s = MD5(`${mobile}:${password}`);
     let result = await this.instance.get(`/share/login.do`, {

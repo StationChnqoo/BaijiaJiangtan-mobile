@@ -134,4 +134,24 @@ export const PasswordSchema = z.object({
   link: z.string().default(''),
   userId: z.string().default(''),
 });
+
+export const ChapterSchema = z.object({
+  id: z.string(),
+  seriesId: z.string(),
+  cctvGuid: z.string().optional(),
+  cctvId: z.string().optional(),
+  title: z.string(),
+  message: z.string(),
+  cover: z.string().optional(),
+  brief: z.string().optional(),
+  duration: z.string().optional(),
+  m3u8: z.string().optional(),
+  link: z.string().optional(),
+  status: z.enum(["-1", "0", "1", "2"]).transform(Number),
+  focusTime: z.string().optional(),
+  createTime: z.string(),
+  updateTime: z.string(),
+});
+
+export type Chapter = z.infer<typeof ChapterSchema>;
 export type Password = z.infer<typeof PasswordSchema>;
