@@ -23,7 +23,7 @@ private boolean hasNextPage; // 是否有下一页
 ```bash
 ENVFILE=.env.dev ./gradlew assembleDebug
 ENVFILE=.env.alpha ./gradlew assembleRelease
-ENVFILE=.env.bate ./gradlew assembleRelease
+ENVFILE=.env.beta ./gradlew assembleRelease
 ENVFILE=.env.rc ./gradlew assembleRelease
 ENVFILE=.env.stable ./gradlew assembleRelease
 ```
@@ -32,8 +32,8 @@ ENVFILE=.env.stable ./gradlew assembleRelease
 
 ```js
 Dev -> 开发版本
-Alpha -> Bate启用前，验证SQL脚本，模拟线上功能是否正常
-Bate -> 目前个人在使用的版本
+Alpha -> Beta启用前，验证SQL脚本，模拟线上功能是否正常
+Beta -> 目前个人在使用的版本
 RC -> 用户达到一千人时候，启用的版本
 Stable -> 用户达到一万人的时候，启用的版本
 ```

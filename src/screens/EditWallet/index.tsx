@@ -233,7 +233,7 @@ const EditWallet: React.FC<MyProps> = props => {
           </Flex>
           {loadLine()}
           <Flex horizontal justify="space-between" align="flex-end">
-            <Text style={styles.label}>完成日期</Text>
+            <Text style={styles.label}>清算日期</Text>
             <MoreButton
               onPress={() => {
                 setTimePicker(true);

@@ -3,11 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useCaches} from '@src/constants/store';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import Financing from '../Financing';
+import Datas from '../Datas';
 import Home from '../Home';
 import My from '../My';
 import {RootStacksProp} from '../Screens';
-import Wallet from '../Wallet';
 
 const Tab = createBottomTabNavigator();
 interface MyProps {
@@ -27,13 +26,13 @@ const BottomTabs = (props: MyProps) => {
     },
     {
       name: 'archive',
-      component: Financing,
+      component: Home,
       icon: require('./assets/menu_cctv.png'),
       label: '归档',
     },
     {
       name: 'datas',
-      component: Wallet,
+      component: Datas,
       icon: require('./assets/menu_datas.png'),
       label: '数据',
     },

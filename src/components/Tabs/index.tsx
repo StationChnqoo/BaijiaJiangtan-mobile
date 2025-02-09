@@ -26,37 +26,44 @@ const Tabs: React.FC<MyProps> = props => {
   return (
     <View style={{backgroundColor: '#fff', ...(shadow ? x.Styles.CARD : {})}}>
       <View style={{height: avoidStatusBar ? useSafeAreaInsets().top : 0}} />
-      <ScrollView horizontal bounces={false}>
-        <Flex style={{gap: 15, paddingHorizontal: 15, height: 52}} horizontal>
-          {tabs.map((it, i) => (
-            <TouchableOpacity
-              key={i}
-              activeOpacity={0.9}
-              onPress={() => {
-                onTabPress(i);
-              }}>
-              <Flex>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    ...(tabIndex == i
-                      ? {color: theme, fontWeight: '500'}
-                      : {color: '#666', fontWeight: 'normal'}),
-                  }}>
-                  {it.label}
+      <Flex
+        style={{gap: 15, paddingHorizontal: 15, height: 52}}
+        horizontal
+        justify="flex-start">
+        {tabs.map((it, i) => (
+          <TouchableOpacity
+            key={i}
+            // style={{flex: 1}}
+            activeOpacity={0.9}
+            onPress={() => {
+              onTabPress(i);
+            }}>
+            <Flex>
+              {/* <Text
+                  style={{fontSize: 12, color: tabIndex == i ? theme : '#999'}}>
+                  {it.value}
                 </Text>
-                <View style={{height: 4}} />
-                <View
-                  style={{
-                    ...styles.dot,
-                    backgroundColor: tabIndex == i ? theme : 'white',
-                  }}
-                />
-              </Flex>
-            </TouchableOpacity>
-          ))}
-        </Flex>
-      </ScrollView>
+                <View style={{height: 4}} /> */}
+              <Text
+                style={{
+                  fontSize: 16,
+                  ...(tabIndex == i
+                    ? {color: theme, fontWeight: '500'}
+                    : {color: '#666', fontWeight: 'normal'}),
+                }}>
+                {it.label}
+              </Text>
+              <View style={{height: 4}} />
+              <View
+                style={{
+                  ...styles.dot,
+                  backgroundColor: tabIndex == i ? theme : 'white',
+                }}
+              />
+            </Flex>
+          </TouchableOpacity>
+        ))}
+      </Flex>
     </View>
   );
 };

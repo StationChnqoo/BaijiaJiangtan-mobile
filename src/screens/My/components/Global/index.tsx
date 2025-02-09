@@ -31,7 +31,7 @@ const Global: React.FC<MyProps> = props => {
         activeOpacity={x.Touchable.OPACITY}>
         <Text
           style={{
-            fontSize: x.scale(14),
+            fontSize: 14,
             color: '#333',
           }}>{`已选${global.length}个指数`}</Text>
         <Image
