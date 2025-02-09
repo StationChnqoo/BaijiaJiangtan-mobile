@@ -118,7 +118,9 @@ const Setting: React.FC<MyProps> = props => {
           justify="space-between"
           style={{marginVertical: 4}}>
           <Text style={{fontSize: 14, color: '#333'}}>{it}</Text>
-          <Text style={{fontSize: 14, color: '#333'}}>{Config[it]}</Text>
+          <Text style={{fontSize: 14, color: '#333'}}>
+            {String(Config[it])}
+          </Text>
         </Flex>
       ))}
     </Card>

@@ -7,7 +7,6 @@ import {RootStacksProp} from '../Screens';
 import Global from './components/Global';
 import Profile from './components/Profile';
 import Setting from './components/Setting';
-import Stocks from './components/Stocks';
 import {NextService} from '@src/service';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -72,16 +71,6 @@ const My: React.FC<MyProps> = props => {
           <View style={{height: 6}} />
           {[
             <Profile onLoginPress={onLoginPress} />,
-            <Stocks
-              onNewStockPress={() => {
-                navigation.navigate('ChooseStock');
-              }}
-            />,
-            <Global
-              onPress={() => {
-                navigation.navigate('ChooseGlobal');
-              }}
-            />,
             // <Color />,
             <Setting />,
           ].map((it, i) => (

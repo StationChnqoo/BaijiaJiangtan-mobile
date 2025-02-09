@@ -14,7 +14,6 @@ import BottomTabs from './BottomTabs';
 import EditChapter from './EditChapter';
 import EditJira from './EditJira';
 import EditSeries from './EditSeries';
-import EditWallet from './EditWallet';
 import Login from './Login';
 import SelectSeries from './SelectSeries';
 import Webviewer from './Webviewer';
@@ -58,7 +57,6 @@ export default function Stacks() {
         <RootStack.Screen name="Login" component={Login} />
         <RootStack.Screen name="EditJira" component={EditJira} />
         <RootStack.Screen name="SelectSeries" component={SelectSeries} />
-        <RootStack.Screen name="EditWallet" component={EditWallet} />
         <RootStack.Screen name="EditSeries" component={EditSeries} />
         <RootStack.Screen name="EditChapter" component={EditChapter} />
         <RootStack.Screen name="EditTeacher" component={EditTeacher} />

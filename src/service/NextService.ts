@@ -1,14 +1,6 @@
-import {MD5, SHA256} from 'crypto-js';
+import {Chapter, PaginationProps, Series, Teacher} from '@src/constants/t';
+import {MD5} from 'crypto-js';
 import BaseService from './BaseService';
-import {
-  Chapter,
-  Jira,
-  PaginationProps,
-  Password,
-  Property,
-  Series,
-  Teacher,
-} from '@src/constants/t';
 
 export default class NextService extends BaseService {
   constructor() {

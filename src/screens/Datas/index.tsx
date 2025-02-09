@@ -119,17 +119,11 @@ const Datas: React.FC<MyProps> = props => {
           </View>
         </Flex>
         <View style={{height: 10}} />
+
         <Flex horizontal justify="space-between">
-          <Text style={{color: '#666', fontSize: 14}}>
-            {moment(item.updateTime).fromNow().replace(' ', '')}更新
-          </Text>
-          <Text style={{color: '#666', fontSize: 14}}>
-            {`${moment(item.createTime).format('YYYY-MM-DD HH:mm')} 创建`}
-          </Text>
-        </Flex>
-        <View style={{height: 2}} />
-        <Flex horizontal justify="space-between">
-          <Text style={{color: '#999', fontSize: 14}} numberOfLines={1}>
+          <Text
+            style={{color: '#999', fontSize: 14, flex: 1}}
+            numberOfLines={1}>
             {`Id: ${item.id || '--'}`}
           </Text>
           <View style={{width: 24}} />
@@ -137,6 +131,15 @@ const Datas: React.FC<MyProps> = props => {
             style={{color: '#999', fontSize: 14, flex: 1}}
             numberOfLines={1}>
             {`Series: ${item.seriesId || '--'}`}
+          </Text>
+        </Flex>
+        <View style={{height: 2}} />
+        <Flex horizontal justify="space-between">
+          <Text style={{color: '#666', fontSize: 14}}>
+            {moment(item.updateTime).fromNow().replace(' ', '')}更新
+          </Text>
+          <Text style={{color: '#666', fontSize: 14}}>
+            {`${moment(item.createTime).format('YYYY-MM-DD HH:mm')} 创建`}
           </Text>
         </Flex>
       </TouchableOpacity>

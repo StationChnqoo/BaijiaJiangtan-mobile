@@ -102,7 +102,7 @@ const SelectSeries: React.FC<MyProps> = props => {
           }}
           textStyle={{color: theme}}
           onPress={() => {
-            navigation.navigate('EditTeacher');
+            navigation.navigate('EditSeries');
           }}
         />
       </Flex>

@@ -56,7 +56,6 @@ const EditJira: React.FC<MyProps> = props => {
       {
         text: '确定',
         onPress: async () => {
-          const result = await new NextService().deleteJira(form.id);
           toast.show({description: '删除成功'});
           navigation.goBack();
         },
@@ -78,9 +77,6 @@ const EditJira: React.FC<MyProps> = props => {
   const loadJira = async () => {
     let _form = JSON.parse(JSON.stringify(form)) as Jira;
     if (route.params?.id) {
-      let result = await new NextService().selectJira(route.params.id);
-      _form = result.data;
-      _form.people = JSON.parse(result.data.people);
     } else {
       _form.createTime = new Date().getTime();
       let result = await new NextService().selectUUID();

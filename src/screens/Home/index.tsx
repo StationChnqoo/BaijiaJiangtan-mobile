@@ -2,10 +2,8 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 
 import {useFocusEffect} from '@react-navigation/native';
-import {Tabs} from '@src/components';
 import {useCaches} from '@src/constants/store';
 import {RootStacksProp} from '../Screens';
-import Demo from './components/Demo';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -26,13 +24,6 @@ const Home: React.FC<MyProps> = props => {
         setFocused(false);
       };
     }, []),
-  );
-
-  const tabs = useMemo(
-    () => [
-      {label: '测试', value: 'demo', component: __DEV__ ? <Demo /> : <View />},
-    ],
-    [],
   );
 
   return (
