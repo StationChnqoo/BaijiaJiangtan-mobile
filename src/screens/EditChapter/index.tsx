@@ -88,16 +88,20 @@ const EditChapter: React.FC<MyProps> = props => {
         {form.m3u8 ? (
           <VideoPlayer
             ref={playerRef}
-            style={{width: '100%', height: '100%'}}
-            disableControlsAutoHide
+            // disableControlsAutoHide
             autoplay={true}
             showDuration={true}
             disableFullscreen={Platform.OS == 'android'}
             customStyles={{
-              wrapper: {backgroundColor: '#000'},
+              wrapper: {
+                backgroundColor: '#000',
+                height: (x.WIDTH * 9) / 16,
+                width: x.WIDTH,
+              },
               videoWrapper: {},
             }}
             source={{
+              // uri: 'https://newcntv.qcloudcdn.com/asp/hls/main/0303000a/3/default/2954241d2c084dc05f90b890b53839eb/main.m3u8?maxbr=2048',
               uri: form.m3u8,
             }}
             onError={() => {}}
