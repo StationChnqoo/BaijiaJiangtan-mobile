@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Alert, StyleSheet, Switch, Text, TextInput, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import {RouteProp, useFocusEffect} from '@react-navigation/native';
 import {Button, Flex, MoreButton} from '@src/components';
@@ -7,13 +14,12 @@ import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import {Series, SeriesSchema} from '@src/constants/t';
 import x from '@src/constants/x';
+import {NextService} from '@src/service';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, ScrollView, useToast} from 'native-base';
+import FastImage from 'react-native-fast-image';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksParams, RootStacksProp} from '../Screens';
-import {NextService} from '@src/service';
-import FastImage from 'react-native-fast-image';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -25,7 +31,6 @@ const EditSeries: React.FC<MyProps> = props => {
   const {theme, setUser, selectedTeacher} = useCaches();
   const [form, setForm] = useState<Series>(SeriesSchema.parse({}));
   const [focused, setFocused] = useState(false);
-  const toast = useToast();
 
   const updateForm = <K extends keyof Series>(key: K, value: Series[K]) => {
     let _form = produce(form, draft => {
@@ -36,7 +41,6 @@ const EditSeries: React.FC<MyProps> = props => {
 
   const onSave = async () => {
     new NextService().mergeSeries(form);
-    toast.show({description: '操作成功'});
     navigation.goBack();
   };
 
@@ -199,7 +203,7 @@ const EditSeries: React.FC<MyProps> = props => {
           {loadLine()}
         </View>
       </ScrollView>
-      <Divider />
+      <View style={{height: 1, backgroundColor: '#ccc'}} />
       <Flex
         horizontal
         justify={'flex-end'}

@@ -12,7 +12,6 @@ import {RouteProp, useFocusEffect} from '@react-navigation/native';
 import {Button, Flex} from '@src/components';
 import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
-import {Divider, useToast} from 'native-base';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import {Series, Teacher} from '@src/constants/t';
@@ -29,8 +28,6 @@ const SelectSeries: React.FC<MyProps> = props => {
   const {theme, setUser, selectedSeries, setSelectedSeries} = useCaches();
   const [datas, setDatas] = useState<Series[]>([]);
   const [focused, setFocused] = useState(false);
-
-  const toast = useToast();
 
   const loadDatas = async () => {
     let result = await new NextService().selectSerieses();
@@ -89,7 +86,7 @@ const SelectSeries: React.FC<MyProps> = props => {
         ListHeaderComponent={<View style={{height: 5}} />}
         ItemSeparatorComponent={() => <View style={{height: 5}} />}
       />
-      <Divider />
+      <View style={{height: 1, backgroundColor: '#ccc'}} />
       <Flex
         horizontal
         justify={'flex-end'}

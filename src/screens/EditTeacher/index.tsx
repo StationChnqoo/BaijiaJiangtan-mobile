@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, StyleSheet, Switch, Text, TextInput, View} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
 import {Button, Flex} from '@src/components';
@@ -10,7 +18,6 @@ import x from '@src/constants/x';
 import {NextService} from '@src/service';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, ScrollView, useToast} from 'native-base';
 import FastImage from 'react-native-fast-image';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksParams, RootStacksProp} from '../Screens';
@@ -25,8 +32,6 @@ const EditTeacher: React.FC<MyProps> = props => {
   const {theme, setUser, selectedTeacher} = useCaches();
   const [form, setForm] = useState<Teacher>(SeriesSchema.parse({}));
 
-  const toast = useToast();
-
   const updateForm = <K extends keyof Teacher>(key: K, value: Teacher[K]) => {
     let _form = produce(form, draft => {
       draft[key] = value;
@@ -34,23 +39,8 @@ const EditTeacher: React.FC<MyProps> = props => {
     setForm(_form);
   };
 
-  const onDelete = async () => {
-    Alert.alert('提示', '删除后不可恢复，请谨慎操作', [
-      {text: '取消', onPress: () => {}},
-      {
-        text: '确定',
-        onPress: async () => {
-          // const result = await new TrifleService().deleteJira(form.id);
-          toast.show({description: '删除成功'});
-          navigation.goBack();
-        },
-      },
-    ]);
-  };
-
   const onSave = async () => {
     let result = await new NextService().mergeTeacher(form);
-    toast.show({description: '操作成功'});
     navigation.goBack();
   };
 
@@ -169,7 +159,7 @@ const EditTeacher: React.FC<MyProps> = props => {
           {loadLine()}
         </View>
       </ScrollView>
-      <Divider />
+      <View style={{height: 1, backgroundColor: '#ccc'}} />
       <Flex
         horizontal
         justify={'flex-end'}

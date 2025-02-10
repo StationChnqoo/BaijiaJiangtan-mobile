@@ -6,7 +6,6 @@ import ToolBar from '@src/components/ToolBar';
 import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
 import {NextService} from '@src/service';
-import {useToast} from 'native-base';
 import {RootStacksProp} from '../Screens';
 
 interface MyProps {
@@ -19,7 +18,6 @@ const Login: React.FC<MyProps> = props => {
   const [hidePassword, setHidePassword] = useState(true);
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
-  const toast = useToast();
 
   const submit = async () => {
     if (mobile && password) {
@@ -29,10 +27,8 @@ const Login: React.FC<MyProps> = props => {
         console.log('Token: ', result.data);
         navigation.goBack();
       } else {
-        toast.show({description: '登录失败'});
       }
     } else {
-      toast.show({description: '请填写手机号 / 密码'});
     }
   };
 

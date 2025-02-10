@@ -1,5 +1,5 @@
 APP_PACKAGE_NAME=net.cctv3.bjjt.alpha
 APP_NAME=百家讲坛α
-SERVICE=http://110.42.253.75:7582
+SERVICE=http:/$()/110.42.253.75:7582
 CONFIG=Alpha
 APP_VERSION=0.0.1

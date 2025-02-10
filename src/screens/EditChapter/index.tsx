@@ -18,7 +18,6 @@ import x from '@src/constants/x';
 import {NextService} from '@src/service';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, useToast} from 'native-base';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import {RootStacksParams, RootStacksProp} from '../Screens';
@@ -33,7 +32,6 @@ const EditChapter: React.FC<MyProps> = props => {
   const {navigation, route} = props;
   const {theme, setUser, selectedSeries} = useCaches();
   const [form, setForm] = useState<Chapter>(ChapterSchema.parse({}));
-  const toast = useToast();
   const [series, setSeries] = useState();
 
   const updateForm = <K extends keyof Chapter>(key: K, value: Chapter[K]) => {
@@ -45,7 +43,6 @@ const EditChapter: React.FC<MyProps> = props => {
 
   const onSave = async () => {
     await new NextService().mergeChapter(form);
-    toast.show({description: '操作成功'});
     navigation.goBack();
   };
 
@@ -99,9 +96,7 @@ const EditChapter: React.FC<MyProps> = props => {
               source={{
                 uri: form.m3u8,
               }}
-              onError={() => {
-                toast.show({description: '播放失败'});
-              }}
+              onError={() => {}}
               style={{width: '100%', height: '100%'}}
             />
           ) : (
@@ -258,7 +253,7 @@ const EditChapter: React.FC<MyProps> = props => {
           </Flex>
         </View>
       </ScrollView>
-      <Divider />
+      <View style={{height: 1, backgroundColor: '#ccc'}} />
       <Flex
         horizontal
         justify={'flex-end'}

@@ -522,7 +522,7 @@ PODS:
     - React-perflogger (= 0.72.17)
   - RNCAsyncStorage (2.1.0):
     - React-Core
-  - RNDateTimePicker (7.7.0):
+  - RNDateTimePicker (6.7.5):
     - React-Core
   - RNFastImage (8.6.3):
     - React-Core
@@ -840,7 +840,7 @@ SPEC CHECKSUMS:
   React-utils: 7959d4553163b61e01bbe83dbd80e58ca420aecb
   ReactCommon: 841449721eb2e004de2c3366844b0a03f329f2cb
   RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
-  RNDateTimePicker: 4f3c4dbd4f908be32ec8c93f086e8924bd4a2e07
+  RNDateTimePicker: 65e1d202799460b286ff5e741d8baf54695e8abd
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNGestureHandler: 22d513d69ddc0b80430375c11f7c7cb4fabd8ffe
   RNReanimated: 726395a2fa2f04cea340274ba57a4e659bc0d9c1
@@ -855,4 +855,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4d2c6322b42c20e2b5944e0da19d852b75adbe42
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.15.2

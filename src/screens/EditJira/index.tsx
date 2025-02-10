@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
 import {Button, DeleteableTags, Flex, MoreButton, Star} from '@src/components';
@@ -9,7 +16,6 @@ import {Jira, JiraSchema} from '@src/constants/t';
 import {NextService} from '@src/service';
 import {produce} from 'immer';
 import moment from 'moment';
-import {Divider, ScrollView, useToast} from 'native-base';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {RootStacksParams, RootStacksProp} from '../Screens';
@@ -26,8 +32,6 @@ const EditJira: React.FC<MyProps> = props => {
   const [form, setForm] = useState<Jira>(JiraSchema.parse({}));
   const [open, setOpen] = useState(false);
   const [timePicker, setTimePicker] = useState(false);
-
-  const toast = useToast();
 
   const updateForm = <K extends keyof Jira>(key: K, value: Jira[K]) => {
     let _form = produce(form, draft => {
@@ -56,7 +60,6 @@ const EditJira: React.FC<MyProps> = props => {
       {
         text: '确定',
         onPress: async () => {
-          toast.show({description: '删除成功'});
           navigation.goBack();
         },
       },
@@ -68,7 +71,6 @@ const EditJira: React.FC<MyProps> = props => {
       // @ts-ignore
       draft.people = JSON.stringify(draft.people);
     });
-    toast.show({description: '操作成功'});
     navigation.goBack();
   };
 
@@ -203,7 +205,7 @@ const EditJira: React.FC<MyProps> = props => {
           />
         </View>
       </ScrollView>
-      <Divider />
+      <View style={{height: 1, backgroundColor: '#ccc'}} />
       <Flex
         horizontal
         justify={'flex-end'}

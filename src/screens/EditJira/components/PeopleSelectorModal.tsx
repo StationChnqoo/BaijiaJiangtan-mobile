@@ -1,9 +1,9 @@
-import { BottomSheet, Button, Flex } from '@src/components';
-import { useCaches } from '@src/constants/store';
+import {BottomSheet, Button, Flex} from '@src/components';
+import {useCaches} from '@src/constants/store';
 import x from '@src/constants/x';
-import { ScrollView } from 'native-base';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
