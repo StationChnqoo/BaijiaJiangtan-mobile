@@ -1,6 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {create} from 'zustand';
-import {createJSONStorage, devtools, persist} from 'zustand/middleware';
+import {
+  createJSONStorage,
+  devtools,
+  persist,
+  StateStorage,
+} from 'zustand/middleware';
+import {MMKV} from 'react-native-mmkv';
+
 import {
   Series,
   SeriesSchema,
@@ -9,6 +15,16 @@ import {
   User,
   UserSchema,
 } from './t';
+
+const mmkv = new MMKV({
+  id: 'useMMKV',
+  encryptionKey: 'net.cctv3.bookkeeping',
+});
+const mmkvStorage: StateStorage = {
+  setItem: (key, value) => mmkv.set(key, value),
+  getItem: key => mmkv.getString(key) || null,
+  removeItem: key => mmkv.delete(key),
+};
 
 interface States {
   user: User;
@@ -69,7 +85,8 @@ const useCaches = create<States>()(
         },
       }),
       {
-        storage: createJSONStorage(() => AsyncStorage),
+        // storage: createJSONStorage(() => AsyncStorage),
+        storage: createJSONStorage(() => mmkvStorage),
         name: 'useCaches.ts',
         /** 白名单 */
         partialize: state => ({
