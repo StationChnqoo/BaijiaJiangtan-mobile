@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 
 import {RouteProp} from '@react-navigation/native';
@@ -22,6 +23,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Video from 'react-native-video';
 import {RootStacksParams, RootStacksProp} from '../Screens';
 import FastImage from 'react-native-fast-image';
+import VideoPlayer, {type VideoPlayerRef} from 'react-native-video-player';
 
 interface MyProps {
   navigation?: RootStacksProp;
@@ -33,6 +35,7 @@ const EditChapter: React.FC<MyProps> = props => {
   const {theme, setUser, selectedSeries} = useCaches();
   const [form, setForm] = useState<Chapter>(ChapterSchema.parse({}));
   const [series, setSeries] = useState();
+  const playerRef = useRef<VideoPlayerRef>(null);
 
   const updateForm = <K extends keyof Chapter>(key: K, value: Chapter[K]) => {
     let _form = produce(form, draft => {
@@ -82,27 +85,27 @@ const EditChapter: React.FC<MyProps> = props => {
       />
       <View style={{height: 1, backgroundColor: '#eee'}} />
       <ScrollView bounces={false} style={{flex: 1}}>
-        <Flex
-          style={{
-            width: x.WIDTH,
-            height: (x.WIDTH * 9) / 16,
-            backgroundColor: '#000',
-          }}>
-          {form.m3u8 ? (
-            <Video
-              fullscreen={false}
-              controls={true}
-              resizeMode={'contain'}
-              source={{
-                uri: form.m3u8,
-              }}
-              onError={() => {}}
-              style={{width: '100%', height: '100%'}}
-            />
-          ) : (
-            <ActivityIndicator size={32} />
-          )}
-        </Flex>
+        {form.m3u8 ? (
+          <VideoPlayer
+            ref={playerRef}
+            style={{width: '100%', height: '100%'}}
+            disableControlsAutoHide
+            autoplay={true}
+            showDuration={true}
+            disableFullscreen={Platform.OS == 'android'}
+            customStyles={{
+              wrapper: {backgroundColor: '#000'},
+              videoWrapper: {},
+            }}
+            source={{
+              uri: form.m3u8,
+            }}
+            onError={() => {}}
+          />
+        ) : (
+          <ActivityIndicator size={32} />
+        )}
+
         <View style={{padding: 15}}>
           <Flex horizontal justify="space-between">
             <Text style={styles.label}>ID</Text>

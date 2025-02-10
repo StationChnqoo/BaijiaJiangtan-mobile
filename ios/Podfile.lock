@@ -89,6 +89,9 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
+  - MMKV (2.0.2):
+    - MMKVCore (~> 2.0.2)
+  - MMKVCore (2.0.2)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -398,6 +401,10 @@ PODS:
     - react-native-config/App (= 1.5.3)
   - react-native-config/App (1.5.3):
     - React-Core
+  - react-native-mmkv (2.12.2):
+    - MMKV (>= 1.3.3)
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - react-native-safe-area-context (4.14.1):
     - React-Core
   - react-native-video (6.0.0):
@@ -520,8 +527,6 @@ PODS:
     - React-jsi (= 0.72.17)
     - React-logger (= 0.72.17)
     - React-perflogger (= 0.72.17)
-  - RNCAsyncStorage (2.1.0):
-    - React-Core
   - RNDateTimePicker (6.7.5):
     - React-Core
   - RNFastImage (8.6.3):
@@ -626,6 +631,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-charts-wrapper (from `../node_modules/react-native-charts-wrapper`)
   - react-native-config (from `../node_modules/react-native-config`)
+  - react-native-mmkv (from `../node_modules/react-native-mmkv`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-video (from `../node_modules/react-native-video`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -646,7 +652,6 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
-  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -670,6 +675,8 @@ SPEC REPOS:
     - fmt
     - libevent
     - libwebp
+    - MMKV
+    - MMKVCore
     - OpenSSL-Universal
     - SDWebImage
     - SDWebImageWebPCoder
@@ -724,6 +731,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-charts-wrapper"
   react-native-config:
     :path: "../node_modules/react-native-config"
+  react-native-mmkv:
+    :path: "../node_modules/react-native-mmkv"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-video:
@@ -764,8 +773,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
-  RNCAsyncStorage:
-    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
@@ -801,33 +808,36 @@ SPEC CHECKSUMS:
   hermes-engine: 982096772bd947125ee3b4f72ace6cb9a33f1d02
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
+  MMKV: 3eacda84cd1c4fc95cf848d3ecb69d85ed56006c
+  MMKVCore: 508b4d3a8ce031f1b5c8bd235f0517fb3f4c73a9
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 01c639ec840ee03928b2d65f5cd5297d737b3834
   RCTTypeSafety: 9623592521a1576363baf3d6ab8d164cfe9062bf
   React: 3c0beeda318c3c515a6bb2c1f197b55bd731aa43
   React-callinvoker: 0cd6ff2cdd80255c82cd4628fc925df1e7133a1a
-  React-Codegen: 20cfee78965306e4a5bb65d95958142eda116cfc
-  React-Core: df691c59e0c8a3db4d138a51bb8862c52c8b14f1
-  React-CoreModules: cebd223e814ac07bc1f597bbd2480167a2c7a130
-  React-cxxreact: dec3959d439708cb7dd73b46a11ed64c3eea79da
+  React-Codegen: d3239ad82b29f93beeeb154ac0c776719d1164bc
+  React-Core: 24c3b4beb23e45bdfe1a57cc7687b8ead142a43b
+  React-CoreModules: 24415fff794f24f8269846b88d9ac6b172ce4171
+  React-cxxreact: 9c9d59b4ce6f2535f31e0d812af6a58bc304ba85
   React-debug: 3a5091cbda7ffe5f11ad0443109810fcd1a3e885
-  React-hermes: f3b6b278c4ff7e6664a86b2bf964a4dc4ae72d34
-  React-jsi: 6ec4bd4cd929ae9d468b4984b0ae2c657aeeb2da
-  React-jsiexecutor: 8dc585381e476c3ff2e9468f444c90c4d1d5b874
+  React-hermes: 773790a092f8e0939e1aa3ee6cd10e928f2ce643
+  React-jsi: 33409556a868a4cf41347e68ffd270cbba1d218a
+  React-jsiexecutor: 8d95d2ed8969c2ce7eb8b4bfaccb0bb9c0423761
   React-jsinspector: 853b8631b908636bb09ef77cb217376c38a0c8ff
-  React-logger: 9ca44bb5703bf2355f3c2d2e5e67bfe98ca2dc34
-  react-native-charts-wrapper: cd83d9b1acb8e06ebd18bf297de597906e1cc87d
-  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
-  react-native-safe-area-context: 141eca0fd4e4191288dfc8b96a7c7e1c2983447a
-  react-native-video: ee73e6c45a2f0b938b93c7a7436b76eef55f8358
-  react-native-webview: 6d6a61bdc7bbc8246a8963b9ccc180c319f16146
-  React-NativeModulesApple: 2edfcbb25329e3eb5f76eb79d89010de7c1c6f1f
+  React-logger: afa402da502a35728c9073804b1802861783a996
+  react-native-charts-wrapper: 1c7c46838194a9a21ecc6d20d742ced0a2152cc9
+  react-native-config: ea75335a7cca1d3326de1da384227e580a7c082e
+  react-native-mmkv: 8d091200f8e3d724d8db9f8a3dd8f1466adb3d35
+  react-native-safe-area-context: 758e894ca5a9bd1868d2a9cfbca7326a2b6bf9dc
+  react-native-video: b09d0cc4f3461f1902af35fcb931df7186c0c775
+  react-native-webview: fdee786e1b333372bc71f9b94b146dc288e9bac8
+  React-NativeModulesApple: a3b3019ffee56cf78bbf09c48e056072f3bb4ea4
   React-perflogger: 785b0063af5178298a61b54bb46aae9a19c7bbb5
   React-RCTActionSheet: 84f37b34bd77249263ace75471d6664393c29972
   React-RCTAnimation: 5713910b6223154df4bba80a0bda4e2e671b00f8
-  React-RCTAppDelegate: d3777d05bf6b65fed847536af520731c1a167dea
-  React-RCTBlob: d4d3fb21c0bf1ce2f0308e05227ecd3f19266bf7
+  React-RCTAppDelegate: 11fe0debffcd253bfee81d68fc588f6367444caf
+  React-RCTBlob: 0f191768e0be79ab0cf487be4cab6e88e5c4e480
   React-RCTImage: 2e63a483be5d4e46a80dea3b17c9abee38006feb
   React-RCTLinking: e3ff685ee62187f8f61e938357307c1f890125b5
   React-RCTNetwork: a35842997a403edfdc1ec25b61a0e10a0526368d
@@ -836,16 +846,15 @@ SPEC CHECKSUMS:
   React-RCTVibration: defaae8016de9b3351a2a67ee8ef3fbdd643b0e1
   React-rncore: dfd20469cfad38e48b1c3cc9c4367db63f5231d7
   React-runtimeexecutor: 448409b5ae5a01b7793239f630051960c7dd39f9
-  React-runtimescheduler: ff30efdf24f8ce62eb517a391ded3d99c4263bb0
-  React-utils: 7959d4553163b61e01bbe83dbd80e58ca420aecb
-  ReactCommon: 841449721eb2e004de2c3366844b0a03f329f2cb
-  RNCAsyncStorage: cc6479c4acd84cc7004946946c8afe30b018184d
-  RNDateTimePicker: 65e1d202799460b286ff5e741d8baf54695e8abd
-  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
-  RNGestureHandler: 22d513d69ddc0b80430375c11f7c7cb4fabd8ffe
-  RNReanimated: 726395a2fa2f04cea340274ba57a4e659bc0d9c1
-  RNScreens: 2fc874a2605e88dedf43204a79fad1d2da4abfbe
-  RNSVG: af3907ac5d4fa26a862b75a16d8f15bc74f2ceda
+  React-runtimescheduler: 5cd71d2becb07952525bd137963ca5cb98597bc0
+  React-utils: 389181b1411d047f3d9c4913930b9e806d59d0b1
+  ReactCommon: 561cfc1683ccdebe8a377b4616958ea6a1f62d91
+  RNDateTimePicker: 47b54bf36a41c29d75ac62a05af1b38a9a721631
+  RNFastImage: 462a183c4b0b6b26fdfd639e1ed6ba37536c3b87
+  RNGestureHandler: 9b33307683b06686c8b18eda09d503414f0e1190
+  RNReanimated: c1c395337d1f757941b0a2ad322188474b477ad4
+  RNScreens: c09986e2086f03fb9fcaefbff7126fd3a2bb1cf5
+  RNSVG: ae50dd253f44447b32d0f5a3657a97859f289891
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
@@ -855,4 +864,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4d2c6322b42c20e2b5944e0da19d852b75adbe42
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
