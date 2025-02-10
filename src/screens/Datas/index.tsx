@@ -88,8 +88,8 @@ const Datas: React.FC<MyProps> = props => {
 
   useEffect(() => {
     loadStatusCount();
-    queryClient.resetQueries({queryKey: ['chaptersQuery']});
-    chaptersQuery.refetch();
+    // queryClient.resetQueries({queryKey: ['chaptersQuery']});
+    // chaptersQuery.refetch();
     return function () {};
   }, [focused]);
 
@@ -119,7 +119,6 @@ const Datas: React.FC<MyProps> = props => {
           </View>
         </Flex>
         <View style={{height: 10}} />
-
         <Flex horizontal justify="space-between">
           <Text
             style={{color: '#999', fontSize: 14, flex: 1}}
@@ -133,12 +132,12 @@ const Datas: React.FC<MyProps> = props => {
             {`Series: ${item.seriesId || '--'}`}
           </Text>
         </Flex>
-        <View style={{height: 2}} />
+        <View style={{height: 4}} />
         <Flex horizontal justify="space-between">
-          <Text style={{color: '#666', fontSize: 14}}>
+          <Text style={{color: '#666', fontSize: 12}}>
             {moment(item.updateTime).fromNow().replace(' ', '')}更新
           </Text>
-          <Text style={{color: '#666', fontSize: 14}}>
+          <Text style={{color: '#666', fontSize: 12}}>
             {`${moment(item.createTime).format('YYYY-MM-DD HH:mm')} 创建`}
           </Text>
         </Flex>

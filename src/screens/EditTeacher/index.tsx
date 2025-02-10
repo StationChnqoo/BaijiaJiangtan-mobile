@@ -163,7 +163,11 @@ const EditTeacher: React.FC<MyProps> = props => {
       <Flex
         horizontal
         justify={'flex-end'}
-        style={{paddingHorizontal: 15, paddingVertical: 10}}>
+        style={{
+          paddingHorizontal: 15,
+          paddingVertical: 10,
+          backgroundColor: '#fff',
+        }}>
         <Button
           title={'保存'}
           style={{
